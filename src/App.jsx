@@ -10,7 +10,7 @@ import CsvUploader from './components/CsvUploader.jsx'
 import DataTable from './components/DataTable.jsx'
 import ErrorBanner from './components/ErrorBanner.jsx'
 import { parseRulesCSV, parseCartCSV } from './engine/csvParser.js'
-import { processCart, cartTotal } from './engine/discountEngine.js'
+import { processCart, cartTotal, applyCartRule } from './engine/discountEngine.js'
 
 // ── Column definitions ───────────────────────────────────────────
 
@@ -114,6 +114,7 @@ export default function App() {
   const [cartFileName, setCartFileName]   = useState('')
 
   const [results, setResults]       = useState(null)
+  const [cartOffer, setCartOffer]   = useState(null)
 
   // ── Handlers ──
 
@@ -122,7 +123,8 @@ export default function App() {
     setRules(data)
     setRulesErr(errors)
     setRulesFileName(fileName)
-    setResults(null) // clear stale results
+    setResults(null)
+    setCartOffer(null)
   }
 
   function handleCartLoad(csvText, fileName) {
@@ -131,11 +133,19 @@ export default function App() {
     setCartErrors(errors)
     setCartFileName(fileName)
     setResults(null)
+    setCartOffer(null)
   }
 
   function handleCalculate() {
     const res = processCart(cartItems, rules)
     setResults(res)
+    const cartRule = rules.find((r) => r.scope === 'cart')
+    if (cartRule) {
+      const offer = applyCartRule(res, cartRule)
+      setCartOffer(offer.triggered ? offer : null)
+    } else {
+      setCartOffer(null)
+    }
   }
 
   const canCalculate = rules.length > 0 && cartItems.length > 0
@@ -218,9 +228,19 @@ export default function App() {
           <div style={S.section}>
             <div style={S.sectionTitle}>Cart Summary</div>
             <DataTable columns={RESULTS_COLUMNS} rows={results} />
+            {cartOffer && (
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem', padding: '0.5rem 0', borderTop: '1px solid #CECECE' }}>
+                <span style={{ fontSize: 13, color: '#1e5c2c' }}>{cartOffer.reasoning}</span>
+                <span style={{ fontWeight: 600, color: '#1e5c2c' }}>
+                  − Rs.{cartOffer.discountAmount.toLocaleString('en-IN')}
+                </span>
+              </div>
+            )}
             <div style={S.totalRow}>
               <span style={S.totalLabel}>Cart Total</span>
-              <span style={S.totalValue}>Rs.{cartTotal(results).toLocaleString('en-IN')}</span>
+              <span style={S.totalValue}>
+                Rs.{(cartOffer ? cartOffer.finalCartTotal : cartTotal(results)).toLocaleString('en-IN')}
+              </span>
             </div>
           </div>
         )}

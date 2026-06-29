@@ -172,3 +172,17 @@ export function processCart(cartItems, rules) {
 export function cartTotal(results) {
   return results.reduce((sum, r) => sum + r.finalPrice, 0)
 }
+
+export function applyCartRule(results, cartRule) {
+  const itemsTotal = results.reduce((sum, r) => sum + r.finalPrice, 0)
+  if (itemsTotal < cartRule.minCartValue) {
+    return { triggered: false }
+  }
+  const discountAmount = calculateDiscountAmount(itemsTotal, cartRule)
+  const finalCartTotal = itemsTotal - discountAmount
+  const reasoning =
+    cartRule.type === 'percentage'
+      ? `Cart offer: ${cartRule.value}% off on orders above Rs.${cartRule.minCartValue.toLocaleString('en-IN')}`
+      : `Cart offer: Rs.${cartRule.value} off on orders above Rs.${cartRule.minCartValue.toLocaleString('en-IN')}`
+  return { triggered: true, discountAmount, finalCartTotal, reasoning }
+}
