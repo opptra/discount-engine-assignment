@@ -163,7 +163,38 @@ export function applyDiscounts(item, rules) {
  * Returns an array of DiscountResult objects.
  */
 export function processCart(cartItems, rules) {
-  return cartItems.map((item) => applyDiscounts(item, rules))
+  const itemResults = cartItems.map((item) =>
+    applyDiscounts(item, rules)
+  )
+
+  const subtotal = cartTotal(itemResults)
+
+  const cartRule = rules.find(
+    (r) =>
+      r.scope === 'cart' &&
+      subtotal >= Number(r.minCartValue)
+  )
+
+  if (!cartRule) {
+    return {
+      items: itemResults,
+      subtotal,
+      cartDiscount: 0,
+      finalTotal: subtotal,
+      cartRule: null
+    }
+  }
+
+  const cartDiscount =
+    Math.round(subtotal * cartRule.value / 100)
+
+  return {
+    items: itemResults,
+    subtotal,
+    cartDiscount,
+    finalTotal: subtotal - cartDiscount,
+    cartRule
+  }
 }
 
 /**
