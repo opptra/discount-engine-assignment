@@ -72,12 +72,12 @@ export function parseRulesCSV(csvText) {
     data.push({
       ruleId: row.rule_id.trim(),
       scope,
-      appliesTo: row.applies_to.trim(),
+      appliesTo: row.applies_to?.trim() || '',
       type,
       value,
       stackable,
+      minCartValue: Number(row.min_cart_value || 0),
     })
-  })
 
   return { data, errors }
 }
