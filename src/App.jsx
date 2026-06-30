@@ -25,6 +25,11 @@ const RULES_COLUMNS = [
     render: (v, row) => row.type === 'percentage' ? `${v}% off` : `Rs.${v} off`,
   },
   { key: 'stackable', label: 'Stackable',  render: (v) => (v ? 'Yes' : 'No') },
+  {
+    key: 'minCartValue',
+    label: 'Min Cart Value',
+    render: (v) => v ? `Rs.${v}` : '—'
+  }
 ]
 
 const CART_COLUMNS = [
@@ -217,11 +222,36 @@ export default function App() {
         {results && (
           <div style={S.section}>
             <div style={S.sectionTitle}>Cart Summary</div>
-            <DataTable columns={RESULTS_COLUMNS} rows={results} />
+            <DataTable columns={RESULTS_COLUMNS} rows={results.items} />
             <div style={S.totalRow}>
-              <span style={S.totalLabel}>Cart Total</span>
-              <span style={S.totalValue}>Rs.{cartTotal(results).toLocaleString('en-IN')}</span>
-            </div>
+  <span style={S.totalLabel}>Subtotal</span>
+  <span style={S.totalValue}>
+    Rs.{results.subtotal.toLocaleString('en-IN')}
+  </span>
+</div>
+
+{results.cartRule && (
+  <div style={S.totalRow}>
+    <span style={S.totalLabel}>
+      Cart Offer ({results.cartRule.value}% off)
+    </span>
+    <span
+      style={{
+        color: '#1e5c2c',
+        fontWeight: 700,
+      }}
+    >
+      - Rs.{results.cartDiscount.toLocaleString('en-IN')}
+    </span>
+  </div>
+)}
+
+<div style={S.totalRow}>
+  <span style={S.totalLabel}>Final Cart Total</span>
+  <span style={S.totalValue}>
+    Rs.{results.finalTotal.toLocaleString('en-IN')}
+  </span>
+</div>
           </div>
         )}
 
