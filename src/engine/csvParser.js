@@ -49,8 +49,15 @@ export function parseRulesCSV(csvText) {
     }
 
     const scope = row.scope.trim().toLowerCase()
-    if (scope !== 'brand' && scope !== 'platform') {
-      errors.push(`Row ${rowNum}: scope must be "brand" or "platform", got "${row.scope}"`)
+    
+    if (
+      scope !== 'brand' &&
+      scope !== 'platform' &&
+      scope !== 'cart'
+    ) {
+      errors.push(
+        `Row ${rowNum}: scope must be "brand", "platform", or "cart", got "${row.scope}"`
+      )
       return
     }
 
