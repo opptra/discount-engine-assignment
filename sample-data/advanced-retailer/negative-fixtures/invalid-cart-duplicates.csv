@@ -1,0 +1,4 @@
+item_id,product,brand,platform,base_price
+ITEM-DUP-01,Wireless Earbuds 1,Boat,Amazon India,1999
+ITEM-DUP-01,Wireless Earbuds Duplicate,Boat,Flipkart,1299
+ITEM-DUP-02,Galaxy S24 Ultra,Samsung,Amazon India,129999

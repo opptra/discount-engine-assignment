@@ -1,0 +1,4 @@
+item_id,product,brand,platform,base_price
+ITEM-ERR-01,Incomplete Product Row With Missing Price,Boat,Amazon India,
+ITEM-ERR-02,,Samsung,Flipkart,29999
+ITEM-ERR-03,Broken Row Bad Structure

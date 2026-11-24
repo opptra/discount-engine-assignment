@@ -27,6 +27,10 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+.antigravity
+.kilo
+.kilocode
+powershell.cmd
 
 # OS files
 .DS_Store

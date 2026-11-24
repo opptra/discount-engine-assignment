@@ -1,0 +1,19 @@
+rule_id,scope,applies_to,type,value,stackable
+RULE-ADV-01,platform,Amazon India,percentage,10,false
+RULE-ADV-02,platform,Flipkart,percentage,12,true
+RULE-ADV-03,platform,Myntra,percentage,15,false
+RULE-ADV-04,platform,Croma,flat,2000,false
+RULE-ADV-05,platform,Reliance Digital,flat,1500,true
+RULE-ADV-06,brand,Boat,percentage,15,false
+RULE-ADV-07,brand,Boat,flat,300,true
+RULE-ADV-08,brand,Samsung,flat,5000,false
+RULE-ADV-09,brand,Apple,percentage,5,true
+RULE-ADV-10,brand,Sony,percentage,10,false
+RULE-ADV-11,brand,Philips,percentage,12,false
+RULE-ADV-12,brand,Natura Casa,flat,250,false
+RULE-ADV-13,brand,LivSpace Pro,percentage,15,true
+RULE-ADV-14,brand,Nike,percentage,20,false
+RULE-ADV-15,brand,Adidas,flat,1000,false
+RULE-ADV-16,cart,min:10000,percentage,5,false
+RULE-ADV-17,cart,min:25000,flat,1500,true
+RULE-ADV-18,cart,min:500000,percentage,25,false

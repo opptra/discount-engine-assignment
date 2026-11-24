@@ -1,0 +1,4 @@
+item_id,product,brand,platform,base_price
+ITEM-INV-01,Negative Price Item,Nike,Myntra,-500
+ITEM-INV-02,Zero Price Item,Adidas,Amazon India,0
+ITEM-INV-03,Non-Numeric Price Item,Puma,Flipkart,FREE
